@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Homepage</title>
+    <% include partials/style-links.ejs%>
+</head>
+  <body class="container bodybackground">
+    <% include partials/header.ejs%>
+    <% include partials/user-navigation.ejs%>
+    <% include partials/site-navigation.ejs%>
+
+    <div class="maincontent">
+      <main>
+        <a href="/catalog/categories" class="goBack">Go back to categories</a>
+        <table class="itemTable">
+          <tr>
+            <td>
+              <img src='<%= dest.imageURL %>' class="imgbox" alt="<%= dest.dest_name %>">
+            </td>
+            <td>
+              <div class="categoryHeading"><%= dest.dest_name %></div>
+              <div class="categorySubHeading"><%= dest.catalog_category %></div>
+              <div class="categoryRating"><%= dest.verdict %></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <form action="/profile/save" method="POST">
+                <input type="hidden" name="itemList" value="<%= dest %>">
+                <input type="hidden" name="itemCode" value="<%= dest.dest_code %>">
+                <input type="submit" class="button" value="Save Destination"></input>
+              </form>
+              <div class="itemPagebutton1">
+                <form action="/profile/updateProfile" method="POST" >
+                  <input type="hidden" name="itemList" value="<%= dest %>">
+                  <input type="hidden" name="itemCode" value="<%= dest.dest_code %>">
+                  <input type="submit" class="button" value="Rate Destination"></input>
+                </form>
+              </div>
+            </td>
+            <td>
+            </td>
+          </tr>
+        </table>
+        <div class="desc">
+          <%= dest.description %>
+        </div>
+      </main>
+
+      <% include partials/footer.ejs%>
+
+    </div>
+  </body>
+</html>

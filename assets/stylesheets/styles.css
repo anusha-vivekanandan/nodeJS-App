@@ -1,0 +1,180 @@
+.title{
+  font-family: fantasy;
+  font-size: 48px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 900;
+  text-align: center;
+  padding-top: 55px;
+  color: aliceblue;
+}
+
+body, html {
+  height: 100%;
+}
+
+.bodybackground{
+  background-color: aliceblue;
+}
+
+footer{
+  position: relative;
+  left: -274px;
+  top: 130px;
+}
+
+a , .text{
+  font-weight: 500;
+}
+
+.bg {
+  background-image: url("/assets/images/logo.png");
+  height: 30%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.width100{
+  width: 100%;
+}
+
+.sidenav{
+  width: 20%;
+}
+
+.maincontent{
+  margin-left: 25%;
+  padding-top: 15px;
+  position: relative;
+  top: -300px;
+}
+
+.signIn{
+  position: relative;
+  left: 85%;
+  top: -120px;
+}
+
+.imgbox{
+  width: 230px;
+  height: 155px;
+  padding-top: 10px;
+}
+
+.categoryHeading{
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.categorySubHeading{
+  padding-top: 5px;
+  font-size: 17px;
+  font-weight: 300;
+}
+.categoryRating{
+  padding-top: 5px;
+  font-size: 12px;
+  font-weight: 250;
+}
+.categoryTable{
+  border-collapse: separate;
+  border-spacing: 22px;
+}
+
+.itemTable{
+  border-collapse: separate;
+  border-spacing: 12px;
+}
+
+td ul li {
+  padding: 5px 0px 10px 0px;
+}
+td ul {
+  padding-top: 30px;
+}
+
+.button {
+  background-color: #305ea8;
+  border: none;
+  color: #f3f3f3 !important;
+  padding: 9px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.button:hover {
+  background-color: #f3f3f3;
+  color: #305ea8 !important;
+}
+
+.desc{
+  font-size: 15px;
+  padding-top: 15px;
+  padding-left: 12px;
+}
+
+.checkBoxPad{
+  padding-left: 25px !important;
+}
+
+.width80{
+  width: 80%;
+}
+
+th{
+  font-size: 16px;
+}
+
+.tablepad{
+  padding-top: 20px;
+  padding-bottom: 150px;
+}
+
+.tick {
+  width: 15px;
+}
+
+.goBack {
+  font-weight: 300;
+}
+
+.padding {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.padtop20 {
+  padding-top: 20px;
+}
+
+.itemPagebutton1 {
+  position: relative;
+  top: -52px;
+  left: 150px;
+}

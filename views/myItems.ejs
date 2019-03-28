@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Homepage</title>
+    <% include partials/style-links.ejs%>
+  </head>
+  <body class="container bodybackground">
+    <% include partials/header.ejs%>
+    <% include partials/user-navigation.ejs%>
+    <% include partials/site-navigation.ejs%>
+
+    <div class="maincontent">
+      <main>
+        <h3>Your favourite destinations</h3>
+        <div class="tablepad">
+          <table class="width100">
+            <tr>
+              <th></th>
+              <th>Destination</th>
+              <th>Category</th>
+              <th>Verdict</th>
+              <th class="centerAlign">Travelled</th>
+              <th></th>
+              <th></th>
+            </tr>
+
+            <%
+            for(var i=0; i < destinations.length;i++){
+              for(var j=0; j< data.length;j++){
+                if(data[j].itemCode == destinations[i].dest_code){
+            %>
+             <tr>
+              <td> 
+                <img src="/assets/images/tick.jpg" alt="visited" class="tick">
+              </td>
+              <td>
+                <%= destinations[i].dest_name %>
+              </td>
+              <td>
+                  <%= destinations[i].catalog_category %>
+                </td>
+              <td>
+                <%= data[j].verdict %>
+              </td>
+              <td class="centerAlign checkBoxPad">
+                <% if(data[j].visited=='true'){  %>
+                  <input type="checkbox" name="visited" value="<% data[j].itemCode %>" checked>
+                <% } %>
+              </td>
+              <td>
+                  <form action="/profile/updateProfile" method="POST">
+                    <input type="hidden" name="itemList" value="<%= data %>">
+                    <input type="hidden" name="itemCode" value="<%= data[j].itemCode %>">
+                    <input type="submit" class="button width80" value="Review"> </input>
+                  </form>
+                </td>
+                <td>
+                  <form action="/profile/deleteItem" method="POST">
+                    <input type="hidden" name="itemList" value="<%= data %>">
+                    <input type="hidden" name="itemCode" value="<%= data[j].itemCode %>">
+                    <input type="submit" class="button width80" value="Delete"> </input>
+                  </form>
+                </td>
+             </tr>
+            <% 
+              }
+              }
+              }
+            %>
+          </table>
+        </div>
+        <div>
+          <img src="/assets/images/tick.jpg" alt="visited" class="tick"> indicates your reviewed destinations.
+        </div>
+        <div>
+          Click <a href="#">here</a> to share a new destination.
+        </div>
+      </main>
+
+      <% include partials/footer.ejs%>
+
+    </div>
+  </body>
+</html>

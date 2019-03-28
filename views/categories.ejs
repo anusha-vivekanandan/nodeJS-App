@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Homepage</title>
+    <% include partials/style-links.ejs%>
+  </head>
+  <body class="container bodybackground">
+    <% include partials/header.ejs%>
+    <% include partials/user-navigation.ejs%>
+    <% include partials/site-navigation.ejs%>
+
+    <div class="maincontent">
+      <main>
+          <%
+          for(var i=0; i< data.categories.length; i++){ %>
+              <table class="categoryTable">
+                <tr>
+                  <td>
+                    <span class="categoryHeading"><%= data.categories[i] %></span>
+                    <img src="/assets/images/<%= data.categories[i] %>.jpg" class="imgbox" alt="Trekking">
+                  </td>
+                  <td class="width100">
+                    <ul>
+                      <%
+                      for(var j=0; j< data.destinations.length;j++){
+                          if(data.categories[i] === data.destinations[j].catalog_category){ %>
+                              <li>
+                                <a href="/catalog/categories/item/<%= data.destinations[j].dest_code %>"><%= data.destinations[j].dest_name %></a>
+                              </li>
+                        <% }
+                      }
+                      %>
+                    </ul>
+                  </td>
+                </tr>
+              </table>
+              <% }%>
+      </main>
+
+      <% include partials/footer.ejs%>
+
+    </div>
+  </body>
+</html>

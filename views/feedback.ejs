@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <script>
+    function changeCheckBoxandSubmit(){
+      document.getElementById('flag').val = document.getElementById('flag').checked;
+      if(document.getElementById('flag').checked){
+        document.getElementById('visited').value="true";
+      }
+      else{
+        document.getElementById('visited').value="false";
+      }
+    }
+    function loadCheckbox(val){
+      if(val === 'false'){
+        document.getElementById('flag').checked = false;
+      }
+      else{
+        document.getElementById('flag').checked = true;
+      }
+    }
+  </script>
+  <head>
+    <title>Homepage</title>
+    <% include partials/style-links.ejs%>
+</head>
+  <body class="container bodybackground" onload="loadCheckbox('<%= data.visited %>')">
+    <% include partials/header.ejs%>
+    <% include partials/user-navigation.ejs%>
+    <% include partials/site-navigation.ejs%>
+
+    <div class="maincontent">
+      <main>
+        <table class="itemTable">
+          <tr>
+            <td>
+              <img src="/assets/images/<%= data.itemCode %>.jpg" class="imgbox" alt="Trekking">
+            </td>
+            <td>
+            <%
+            for(var i=0; i < destinations.length;i++){
+                if(data.itemCode == destinations[i].dest_code){
+            %>
+              <div class="categoryHeading"><%= destinations[i].dest_name %></div>
+              <div class="categorySubHeading"><%= destinations[i].verdict %></div>
+            </td>
+          </tr>
+        </table>
+        <div class="desc">
+            <div class="padtop20 text"> Verdict : </div>
+            <form action="/profile/updateVerdict" method="POST">
+              <input type="hidden" name="itemList" value="<%= data %>">
+              <input type="hidden" name="itemCode" value="<%= data.itemCode %>">
+              <div class="padtop20">
+                <select name="verdict" onchange="" onclick="" id="" class="padtop20">
+                    <option value=""> Select a verdict </option>
+                    <option value="Must Visit"> Must Visit </option>
+                    <option value="Recommended"> Recommended </option>
+                    <option value="Time pass"> Time pass </option>
+                    <option value="Waste of money"> Waste of money </option>
+                </select>
+              </div>
+              <div class="padtop20"><input type="submit" class="button" value="Save verdict"></input></div><br>
+            </form>
+            <div>
+              <form action="/profile/updateFlag" method="POST"> 
+                <input type="hidden" name="itemList" value="<%= data %>">
+                <input type="hidden" name="itemCode" value="<%= data.itemCode %>">
+                <input type="hidden" name="visited" id="visited" value="">
+                <input type="checkbox" name="flag" id="flag" class="padtop20" onchange="changeCheckBoxandSubmit();this.form.submit();"> Visited
+              </form>
+            </div>
+            <%
+              }
+            }
+            %>
+        </div>
+      </main>
+      <% include partials/footer.ejs%>
+    </div>
+  </body>
+</html>
