@@ -8,34 +8,38 @@ saveUninitialized: true,}));
 
 catalog.get('/categories', function(req, res) {
     console.log('/categories')
-    var destinations = itemdb.getAllDestinations();
     var categories = itemdb.getCategories();
-    var data = {
-        categories : categories,
-        destinations : destinations
-    }
-    if(session.theUser==undefined){
-        res.render('categories', { data : data , username : ''});
-    }
-    else{
-        res.render('categories', { data : data , username : session.theUser.firstName});
-    }
+    var dest = itemdb.getAllDestinations();
+    dest.then(function(destinations){
+        var data = {
+            categories : categories,
+            destinations : destinations
+        }
+        if(session.theUser==undefined){
+            res.render('categories', { data : data , username : ''});
+        }
+        else{
+            res.render('categories', { data : data , username : session.theUser.firstname});
+        }
+    });
 });
 
 catalog.get('/categories/item/:itemCode', function(req, res) {
     var dest_code = req.params.itemCode;
-    var dest = itemdb.getDestinationDetails(dest_code);
-    if(dest){
-        if(session.theUser==undefined){
-            res.render('item', { dest : dest , username : ''});
+    var destination = itemdb.getDestinationDetails(dest_code);
+    destination.then(function(dest){
+        if(dest){
+            if(session.theUser==undefined){
+                res.render('item', { dest : dest , username : ''});
+            }
+            else{
+                res.render('item', { dest : dest  , username : session.theUser.firstname});
+            }
         }
-        else{
-            res.render('item', { dest : dest  , username : session.theUser.firstName});
+        else {
+          res.redirect('/categories')
         }
-    }
-    else {
-      res.redirect('/categories')
-    }
+    });
 });
 
 catalog.get('/categories/item', function(req, res) {
@@ -48,7 +52,7 @@ catalog.get('/about', function(req, res) {
         res.render('about', { username : ''});
     }
     else{
-        res.render('about', { username : session.theUser.firstName});
+        res.render('about', { username : session.theUser.firstname});
     }
 });
 
@@ -58,7 +62,7 @@ catalog.get('/contact', function(req, res) {
         res.render('contact', { username : ''});
     }
     else{
-        res.render('contact', { username : session.theUser.firstName});
+        res.render('contact', { username : session.theUser.firstname});
     }
 });
 

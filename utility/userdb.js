@@ -1,92 +1,109 @@
 var User = require('../models/user');
 var UserProfile = require('../models/userProfile');
+var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://127.0.0.1:27017/TravelDiaries');
 
-module.exports.getUsers = function () {
+var db = mongoose.connection;
 
-    let users = [];
-    for (let i = 0; i < usersdata.length; i++) {
-        let user = new User(usersdata[i].userid,
-            usersdata[i].firstname,
-            usersdata[i].lastname,
-            usersdata[i].emailaddr,
-            usersdata[i].addrline1,
-            usersdata[i].addrline2,
-            usersdata[i].city,
-            usersdata[i].state,
-            usersdata[i].zipcode,
-            usersdata[i].country);
-        users.push(user);
-    }
-    return users;
-};
+db.on('error', console.error.bind(console, 'connection error:'));
 
-module.exports.getUserProfile = function (userid) {
-
-    for (let i = 0; i < userProfiledata.length; i++) {
-        if(userProfiledata[i].userid == userid){
-            let userProfileobject = new UserProfile(userProfiledata[i].userid,
-                userProfiledata[i].userItems);
-            return userProfileobject;
-        }
-    }
-    return null;
-};
-
-
-var usersdata = [
-    {
-        userid: 1,
-        firstname: "Anusha", 
-        lastname: "Vivekanandan", 
-        emailaddr: "aviveka1@uncc.edu", 
-        addrline1: "9543 University Terrace Drive", 
-        addrline2: "Apt# F", 
-        city: "Charlotte", 
-        state: "North Carolina", 
-        zipcode: "28262", 
-        country: "United States"
-    },
-    {
-        userid: 2,
-        firstname: "Bay", 
-        lastname: "Kennish", 
-        emailaddr: "baykennish@gmail.com", 
-        addrline1: "45 Mission Hills", 
-        addrline2: "", 
-        city: "Dallas", 
-        state: "Texas", 
-        zipcode: "11524", 
-        country: "United States"
-    }
-];
-
-var userProfiledata = [
-    {
-        userid: 1,
+db.once('open', function () {
+    console.log("Database connected");
+    var UserInfo = new mongoose.Schema({
+        userid: Number,
+        password:String,
+        firstname: String,
+        lastname: String,
+        emailaddr: String,
+        addrline1: String,
+        addrline2: String,
+        city: String,
+        state: String,
+        zipCode: String,
+        country: String
+    });
+    var UserProfilesInfo = new mongoose.Schema({
+        userid: Number,
         userItems: [
             {
-                itemCode : 1 ,
-                verdict : "Recommended",
-                visited : "true"
-            },
-            {
-                itemCode : 3 ,
-                verdict : "Must Visit",
-                visited : "false"
-            }]
-    },
-    {
-        userid: 2,
-        userItems: [
-            {
-                itemCode : 5 ,
-                verdict : "Recommended",
-                visited : "true"
-            },
-            {
-                itemCode : 7 ,
-                verdict : "Must Visit",
-                visited : "false"
-            }]
+                itemCode: Number,
+                verdict: String,
+                visited: String
+            }
+        ]
+    });
+
+    var UsersObj = mongoose.model('Users', UserInfo, 'Users');
+    var UserProfilesObj = mongoose.model('UserProfiles', UserProfilesInfo, 'UserProfiles');
+
+    module.exports.UserProfilesObj = UserProfilesObj;
+    
+    module.exports.getUsers = function () {
+        var  AllUsers = new Promise(function (resolve, reject) {
+            var users = UsersObj.find({}).exec();
+            users.then(function (usersdata) {
+                var usersList = [];
+                if (usersdata) {
+                    for (var i = 0; i < usersdata.length; i++) {
+                        let user = new User(
+                            usersdata[i].userid,
+                            usersdata[i].firstname,
+                            usersdata[i].lastname,
+                            usersdata[i].emailaddr,
+                            usersdata[i].addrline1,
+                            usersdata[i].addrline2,
+                            usersdata[i].city,
+                            usersdata[i].state,
+                            usersdata[i].zipcode,
+                            usersdata[i].country
+                        );
+                        usersList.push(user);
+                    }
+                    resolve(usersList);
+                }
+                else {
+                    reject("no data");
+                }
+            })
+        });
+        return AllUsers;
+    };
+    
+    module.exports.getUserProfile = function (userId) {
+        var SingleUserProfile = new Promise(function (resolve, reject) {
+            var profile = UserProfilesObj.find({ userid: userId }).exec();
+            profile.then(function (userProfiledata) {
+                if(userProfiledata[0].userid == userId){
+                    let userProfileobject = new UserProfile(
+                        userProfiledata[0].userid,
+                        userProfiledata[0].userItems
+                    );
+                    resolve(userProfileobject);
+                }
+                else {
+                    reject("no data");
+                }
+            })
+        });
+        return SingleUserProfile;
+    };
+
+    module.exports.isUserAuthentic = function(email,pass){
+        var retuserdata = new Promise(function (resolve, reject) {
+            var user = UsersObj.find({ emailaddr: email, password: pass}).exec();
+            user.then(function (userdata) {
+                if(userdata[0] != undefined ){
+                    if(userdata[0].emailaddr == email){
+                        resolve(userdata);
+                    }
+                }
+                else {
+                    resolve(false);
+                }
+            })
+        });
+        return retuserdata;
     }
-];
+});

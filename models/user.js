@@ -1,9 +1,9 @@
 
 class User {
 
-    constructor(userid, firstName, lastname, emailaddr, addrline1, addrline2, city, state, zipcode, country) {
+    constructor(userid, firstname, lastname, emailaddr, addrline1, addrline2, city, state, zipcode, country) {
         this.userid = userid;
-        this.firstName = firstName;
+        this.firstname = firstname;
         this.lastname = lastname;
         this.emailaddr = emailaddr;
         this.addrline1 = addrline1;
@@ -22,12 +22,12 @@ class User {
         this.userid = value;
     }
   
-    get FirstName() {
-        return this.firstName;
+    get Firstname() {
+        return this.firstname;
     }
   
-    set FirstName(value) {
-        this.firstName = value;
+    set Firstname(value) {
+        this.firstname = value;
     }
   
     get LastName() {

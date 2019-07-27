@@ -73,6 +73,11 @@
               }
             }
             %>
+            <% if(error!=''){ %>
+              <div class="loginerror">
+                  <%= error %>
+              </div>
+            <% } %>
         </div>
       </main>
       <% include partials/footer.ejs%>

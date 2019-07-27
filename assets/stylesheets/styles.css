@@ -39,6 +39,10 @@ a , .text{
   width: 100%;
 }
 
+.width50{
+  width: 50%;
+}
+
 .sidenav{
   width: 20%;
 }
@@ -151,7 +155,7 @@ th{
   padding-bottom: 15px;
 }
 
-input[type=text], select, textarea {
+input[type=text],input[type=password], select, textarea {
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -177,4 +181,9 @@ input[type=submit] {
   position: relative;
   top: -52px;
   left: 150px;
+}
+
+.loginerror{
+  color: red;
+  padding-top: 10px;
 }
